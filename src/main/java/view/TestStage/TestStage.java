@@ -1,4 +1,4 @@
-package view;
+package view.TestStage;
 
 import FiszkasOperations.Fiszka;
 import FiszkasOperations.Manager;
@@ -44,15 +44,19 @@ public class TestStage extends Stage {
 
     void updateQuestionScene() {
         iterator = newIteratorValue();
+
         view.setImage(new Image((fiszkas.get(iterator % fiszkas.size())).getImage().toURI().toString()));
         view.setFitWidth(300);
         view.setPreserveRatio(true);
+
         tfTitle = new TextField();
         tfAuthor = new TextField();
         tfDate = new TextField();
+
         tfTitle.setPromptText("Tytuł");
         tfAuthor.setPromptText("Autor");
         tfDate.setPromptText("Data");
+
         tfAuthor.setAlignment(Pos.CENTER);
         tfTitle.setAlignment(Pos.CENTER);
         tfDate.setAlignment(Pos.CENTER);

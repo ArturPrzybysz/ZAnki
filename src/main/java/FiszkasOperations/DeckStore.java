@@ -22,7 +22,6 @@ public class DeckStore {
     public static void init(File envHome) throws DatabaseException {
 
         try {
-            //noinspection ResultOfMethodCallIgnored
             envHome.mkdirs();
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,9 +36,6 @@ public class DeckStore {
         storeConfig.setAllowCreate(true);
         storeConfig.setTransactional(true);
         store = new EntityStore(env, dbName, storeConfig);
-
-//        // empty db
-//        store.truncateClass(Fiszka.class);
 
         deckAccessor = new deckAccessor(store);
     }
@@ -57,7 +53,6 @@ public class DeckStore {
 
         if (env != null) {
             try {
-                // Finally, close environment.
                 env.close();
             } catch (DatabaseException dbe) {
                 System.err.println("Error closing env: " +
@@ -66,22 +61,6 @@ public class DeckStore {
             }
         }
     }
-
-//    public static void addFiszka(Fiszka fiszka) {
-//        deckAccessor.pi.put(fiszka);
-//    }
-//
-//    public static Fiszka getFiszka(String word) {
-//        return deckAccessor.pi.get(word);
-//    }
-//
-//    public static Iterator<Fiszka> getAllFiszkas() {
-//        return deckAccessor.pi.entities().iterator();
-//    }
-//
-//    public static void deleteFiszka(String word) {
-//        deckAccessor.pi.delete(word);
-//    }
 
     public static PrimaryIndex<String, Deck> getDeckAccessorPrimaryIndex() {
         return deckAccessor.pi;

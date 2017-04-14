@@ -1,4 +1,4 @@
-package view;
+package view.CreationStage;
 
 import FiszkasOperations.Fiszka;
 import FiszkasOperations.Manager;
@@ -9,11 +9,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
+import view.MainStage.MainStage;
 
 import java.io.File;
 import java.util.ArrayList;
 
-class CreationScene extends Scene {
+public class CreationScene extends Scene {
+
     private File file = new File("D:\\Coding\\JAVA\\Workspace\\projektOdNowa" +
             "\\fiszki-master\\fiszki-master\\src\\main\\java\\default.png");
 
@@ -25,7 +27,7 @@ class CreationScene extends Scene {
     private ArrayList<Fiszka> fiszkas = new ArrayList<>();
 
 
-    CreationScene(GridPane gp, double width, double height, MainStage stage, String title) {
+    public CreationScene(GridPane gp, double width, double height, MainStage stage, String title) {
         super(gp, width, height);
 
         stage.setTitle("Tworzenie talii " + title);

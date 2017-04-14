@@ -3,7 +3,7 @@ package org.przybysz.artur.fiszki;
 import FiszkasOperations.DeckStore;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import view.MainStage;
+import view.MainStage.MainStage;
 
 import java.io.File;
 
@@ -21,7 +21,6 @@ public class Main extends Application {
 
         MainStage stage = new MainStage();
 
-        stage.showLearnScene();
         stage.show();
     }
 }

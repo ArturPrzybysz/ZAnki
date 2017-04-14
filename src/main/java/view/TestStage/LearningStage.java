@@ -1,4 +1,4 @@
-package view;
+package view.TestStage;
 
 import FiszkasOperations.Fiszka;
 import javafx.collections.ObservableList;
@@ -8,12 +8,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.util.Collections;
-
-class LearningStage extends Stage {
+public class LearningStage extends Stage {
     private ObservableList<Fiszka> fiszkas;
     private Scene scene;
     private GridPane gp = new GridPane();
@@ -21,9 +18,7 @@ class LearningStage extends Stage {
     private int iterator = 0;
     private ImageView view = new ImageView();
 
-    // @Todo Display Image ( image view )
-
-    LearningStage(ObservableList list, String title, double WIDTH, double HEIGHT) {
+    public LearningStage(ObservableList list, String title, double WIDTH, double HEIGHT) {
         fiszkas = list;
         this.setTitle("Nauka talii: " + title);
         scene = new Scene(gp, WIDTH, HEIGHT);
@@ -32,7 +27,7 @@ class LearningStage extends Stage {
         setTextFields();
 
         view.setImage(new Image(fiszkas.get(iterator).getImage().toURI().toString()));
-        gp.add(view,0,0);
+        gp.add(view, 0, 0);
     }
 
     private void setTextFields() {
