@@ -1,4 +1,4 @@
-package view.TestStage;
+package view.displayDeck;
 
 import FiszkasOperations.Fiszka;
 import javafx.collections.ObservableList;

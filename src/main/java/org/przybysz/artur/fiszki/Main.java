@@ -3,7 +3,7 @@ package org.przybysz.artur.fiszki;
 import FiszkasOperations.DeckStore;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import view.MainStage.MainStage;
+import view.mainStage.MainStage;
 
 import java.io.File;
 

@@ -1,4 +1,4 @@
-package view.MainStage;
+package view.mainStage;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;

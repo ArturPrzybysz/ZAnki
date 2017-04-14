@@ -1,4 +1,4 @@
-package view.MainStage;
+package view.mainStage;
 
 import FiszkasOperations.Fiszka;
 import FiszkasOperations.Manager;
@@ -9,8 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import view.TestStage.*;
-import view.CreationStage.CreationScene;
+import view.displayDeck.*;
+import view.createDeck.CreationScene;
 
 public class MainStageScenes {
     static Scene setBeginCreationScene(double WIDTH, double HEIGHT, MainStage parentStage) {
