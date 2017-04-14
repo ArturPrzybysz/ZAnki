@@ -19,7 +19,7 @@ class CreationScene extends Scene {
 
     private File container;
 
-    //@Todo change before .jar
+    //@Todo change before running outside IDE
     private Image imageDefault = new Image(file.toURI().toString());
     private FileChooser fileChooser = new FileChooser();
     private ArrayList<Fiszka> fiszkas = new ArrayList<>();
@@ -30,6 +30,8 @@ class CreationScene extends Scene {
 
         stage.setTitle("Tworzenie talii " + title);
         ImageView imageView = new ImageView();
+        imageView.setPreserveRatio(true);
+        imageView.setFitWidth(350);
         imageView.setImage(imageDefault);
 
         Button fileButton = new Button("Wybierz obraz");
@@ -51,9 +53,7 @@ class CreationScene extends Scene {
 
         Button nextFiszka = new Button("Następny");
         nextFiszka.setOnAction(event -> {
-//            Fiszka f = new Fiszka(tfTitle.getText(),tfAuthor.getText(),tfDate.getText(),imageView.getImage());
             Fiszka f = new Fiszka(tfTitle.getText(), tfAuthor.getText(), tfDate.getText(), container);
-
             fiszkas.add(f);
             tfAuthor.setText("");
             tfDate.setText("");
@@ -64,8 +64,6 @@ class CreationScene extends Scene {
         Button createDeck = new Button("Zakończ tworzenie");
         createDeck.setOnAction(event -> {
             Manager.addToStore(title, fiszkas);
-
-
         });
 
         gp.add(imageView, 0, 0);

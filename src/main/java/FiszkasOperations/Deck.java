@@ -13,9 +13,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Artur on 2017-02-28.
- */
 @Entity
 public class Deck {
     @PrimaryKey

@@ -21,14 +21,10 @@ class LearningStage extends Stage {
     private int iterator = 0;
     private ImageView view = new ImageView();
 
-//    private ImageView view = new ImageView();
-
     // @Todo Display Image ( image view )
 
     LearningStage(ObservableList list, String title, double WIDTH, double HEIGHT) {
         fiszkas = list;
-        //Collections.shuffle(list);
-
         this.setTitle("Nauka talii: " + title);
         scene = new Scene(gp, WIDTH, HEIGHT);
         setLabels();
