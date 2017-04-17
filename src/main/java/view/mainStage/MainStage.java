@@ -14,11 +14,11 @@ public class MainStage extends Stage {
         setLearningScene();
     }
 
-    void setLearningScene() {
+    public void setLearningScene() {
         setScene(learnScene);
     }
 
-    void setCreateScene() {
+    public void setCreateScene() {
         setScene(createScene);
     }
 }

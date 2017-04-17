@@ -9,8 +9,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import view.displayDeck.*;
 import view.createDeck.CreationScene;
+import view.displayDeck.LearningStage;
+import view.displayDeck.TestStage;
 
 public class MainStageScenes {
     static Scene setBeginCreationScene(double WIDTH, double HEIGHT, MainStage parentStage) {
@@ -58,6 +59,7 @@ public class MainStageScenes {
         TableColumn hardColumn = new TableColumn("Oznaczony");
 
         table.getColumns().addAll(titleColumn, authorColumn, dateColumn, hardColumn);
+
         titleColumn.setCellValueFactory(new PropertyValueFactory<Fiszka, String>("title"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<Fiszka, String>("author"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<Fiszka, String>("date"));
@@ -66,14 +68,25 @@ public class MainStageScenes {
         ObservableList<String> titles = FXCollections.observableArrayList(manager.getAllDecksNames());
         ComboBox comboBox = new ComboBox(titles);
         comboBox.setPromptText("Talia");
+        comboBox.setPrefWidth(550);
         comboBox.setOnAction(event -> {
             String title = comboBox.getSelectionModel().getSelectedItem().toString();
             ObservableList<Fiszka> decks = FXCollections.observableArrayList(manager.getDeck(title).getFiszkas());
             table.setItems(decks);
         });
-        gp.add(comboBox, 0, 2);
 
-        Button buttonStartLearning = new Button("Wybierz i rozpocznij naukę");
+
+        Button buttonEditDeck = new Button("Edytuj talię");
+        buttonEditDeck.setPrefWidth(550);
+        buttonEditDeck.setOnAction(event -> {
+            //@TODO Create edition of deck scene
+            //Stage stage = new Stage();
+            //stage.setScene(createdScene);
+            //stage.show();
+        });
+
+        Button buttonStartLearning = new Button("Rozpocznij naukę");
+        buttonStartLearning.setPrefWidth(550);
 
         buttonStartLearning.setOnAction(event -> {
             String title;
@@ -93,13 +106,29 @@ public class MainStageScenes {
             stageLearn.show();
         });
 
+        Button buttonStartTest = new Button("Rozpocznij test");
+        buttonStartTest.setPrefWidth(550);
+        buttonStartTest.setOnAction(event -> {
+            String title = comboBox.getSelectionModel().getSelectedItem().toString();
+            ObservableList<Fiszka> deck = FXCollections.observableArrayList(manager.getDeck(title).getFiszkas());
+            Stage test = new TestStage(deck, title, WIDTH, HEIGHT);
+            test.show();
+        });
+
         gp.add(setButtonLearn(WIDTH, parentStage), 0, 0);
         gp.add(setButtonCreate(WIDTH, parentStage), 1, 0);
+
+        gp.add(comboBox, 0, 2);
+        gp.add(buttonEditDeck, 1, 2);
+
         gp.add(table, 0, 3, 2, 1);
-        gp.add(buttonStartLearning, 0, 7);
 
         gp.add(new Label(), 0, 1);
         gp.add(new Label(), 0, 5);
+
+        gp.add(buttonStartLearning, 0, 7);
+        gp.add(buttonStartTest, 1, 7);
+
 
         return scene;
     }
