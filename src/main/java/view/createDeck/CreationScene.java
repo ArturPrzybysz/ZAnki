@@ -16,6 +16,7 @@ import view.mainStage.MainStage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class CreationScene extends Scene {
@@ -27,8 +28,8 @@ public class CreationScene extends Scene {
     //@Todo change before running outside IDE
     private Image imageDefault = new Image(file.toURI().toString());
     private FileChooser fileChooser = new FileChooser();
-    private List<Fiszka> fiszkas = new ArrayList<>();
 
+    private List<Fiszka> fiszkas = new ArrayList<>();
     private boolean pictureAdded = false;
 
 
@@ -75,12 +76,22 @@ public class CreationScene extends Scene {
         Button nextFiszka = new Button("Następny");
         nextFiszka.setOnAction(event -> {
             if (!empty(tfTitle, tfAuthor, tfDate)) {
-                fiszkas.add(new Fiszka(tfTitle.getText(), tfAuthor.getText(), tfDate.getText(), imageContainer));
-                tfAuthor.setText("");
-                tfDate.setText("");
-                tfTitle.setText("");
-                imageView.setImage(imageDefault);
-                pictureAdded = false;
+                if (!titleRepeats(tfTitle.getText())) {
+                    fiszkas.add(new Fiszka(tfTitle.getText(), tfAuthor.getText(), tfDate.getText(), imageContainer));
+                    tfAuthor.setText("");
+                    tfDate.setText("");
+                    tfTitle.setText("");
+                    imageView.setImage(imageDefault);
+                    pictureAdded = false;
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Informacja");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Zmień tytuł dzieła.");
+
+                    alert.showAndWait();
+                }
+
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Informacja");
@@ -94,9 +105,17 @@ public class CreationScene extends Scene {
         Button createDeck = new Button("Dodaj jako ostatnią");
         createDeck.setOnAction(event -> {
             if (!empty(tfTitle, tfAuthor, tfDate)) {
-                System.out.print("pusta");
-                fiszkas.add(new Fiszka(tfTitle.getText(), tfAuthor.getText(), tfDate.getText(), imageContainer));
-                Manager.addToStore(title, fiszkas);
+                if (!titleRepeats(tfTitle.getText())) {
+                    fiszkas.add(new Fiszka(tfTitle.getText(), tfAuthor.getText(), tfDate.getText(), imageContainer));
+                    Manager.addToStore(title, fiszkas);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Informacja");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Zmień tytuł dzieła.");
+
+                    alert.showAndWait();
+                }
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Informacja");
@@ -119,9 +138,11 @@ public class CreationScene extends Scene {
 
     }
 
+    private boolean titleRepeats(String newTitle) {
+        return fiszkas.stream().anyMatch(fiszka -> Objects.equals(fiszka.getTitle(), newTitle));
+    }
+
     private boolean empty(TextField tfTitle, TextField tfAuthor, TextField tfDate) {
-        if (tfTitle.getText().equals("") || tfAuthor.getText().equals("") || tfDate.getText().equals("") || !pictureAdded) {
-            return true;
-        } else return false;
+        return tfTitle.getText().equals("") || tfAuthor.getText().equals("") || tfDate.getText().equals("") || !pictureAdded;
     }
 }

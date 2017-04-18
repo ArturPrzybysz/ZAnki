@@ -13,8 +13,28 @@ import view.createDeck.CreationScene;
 import view.displayDeck.LearningStage;
 import view.displayDeck.TestStage;
 
+import java.util.List;
+import java.util.function.Predicate;
+
 public class MainStageScenes {
-    static Scene setBeginCreationScene(double WIDTH, double HEIGHT, MainStage parentStage) {
+
+    private static Button setButtonCreate(double WIDTH, MainStage stage) {
+        Button buttonCreate = new Button("Nowa talia");
+        buttonCreate.setPrefSize(WIDTH, 20);
+        buttonCreate.setOnAction(e -> stage.setCreateScene());
+
+        return buttonCreate;
+    }
+
+    private static Button setButtonLearn(double WIDTH, MainStage stage) {
+        Button buttonLearn = new Button("Nauka");
+        buttonLearn.setPrefSize(WIDTH, 20);
+        buttonLearn.setOnAction(e -> stage.setLearningScene());
+
+        return buttonLearn;
+    }
+
+    public Scene setBeginCreationScene(double WIDTH, double HEIGHT, MainStage parentStage) {
         GridPane gp = new GridPane();
         Scene scene = new Scene(gp, WIDTH, HEIGHT);
 
@@ -32,16 +52,23 @@ public class MainStageScenes {
         gp.add(button, 0, 5);
 
         button.setOnAction(event -> {
-            if (!titleTF.getText().toString().isEmpty()) {
+            if (!titleTF.getText().isEmpty() && !titleRepeats(titleTF.getText())) {
                 parentStage.setScene(new CreationScene
                         (new GridPane(), WIDTH, HEIGHT, parentStage, titleTF.getText().toString()));
                 parentStage.show();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Achtung!");
+                alert.setHeaderText(null);
+                alert.setContentText("Zmień tytuł talii");
+
+                alert.showAndWait();
             }
         });
         return scene;
     }
 
-    static Scene setLearnScene(double WIDTH, double HEIGHT, MainStage parentStage) {
+    public Scene setLearnScene(double WIDTH, double HEIGHT, MainStage parentStage) {
         Manager manager = new Manager();
         GridPane gp = new GridPane();
         Scene scene = new Scene(gp, WIDTH, HEIGHT);
@@ -74,7 +101,6 @@ public class MainStageScenes {
             ObservableList<Fiszka> decks = FXCollections.observableArrayList(manager.getDeck(title).getFiszkas());
             table.setItems(decks);
         });
-
 
         Button buttonEditDeck = new Button("Edytuj talię");
         buttonEditDeck.setPrefWidth(550);
@@ -129,23 +155,11 @@ public class MainStageScenes {
         gp.add(buttonStartLearning, 0, 7);
         gp.add(buttonStartTest, 1, 7);
 
-
         return scene;
     }
 
-    private static Button setButtonCreate(double WIDTH, MainStage stage) {
-        Button buttonCreate = new Button("Nowa talia");
-        buttonCreate.setPrefSize(WIDTH, 20);
-        buttonCreate.setOnAction(e -> stage.setCreateScene());
-
-        return buttonCreate;
-    }
-
-    private static Button setButtonLearn(double WIDTH, MainStage stage) {
-        Button buttonLearn = new Button("Nauka");
-        buttonLearn.setPrefSize(WIDTH, 20);
-        buttonLearn.setOnAction(e -> stage.setLearningScene());
-
-        return buttonLearn;
+    private boolean titleRepeats(String newTitle) {
+        List<String> titles = Manager.getAllDecksNames();
+        return titles.stream().anyMatch(Predicate.isEqual(newTitle));
     }
 }

@@ -15,14 +15,7 @@ public class Manager {
         pi.putNoReturn(deck);
     }
 
-    public Deck getDeck(String title) {
-        PrimaryIndex<String, Deck> pi = DeckStore.getDeckAccessorPrimaryIndex();
-        Deck deck = pi.get(title);
-
-        return deck;
-    }
-
-    public ArrayList<String> getAllDecksNames() {
+    public static List<String> getAllDecksNames() {
         PrimaryIndex<String, Deck> pi = DeckStore.getDeckAccessorPrimaryIndex();
 
         Set<String> stringSet = new HashSet<>();
@@ -31,8 +24,12 @@ public class Manager {
         for (Deck d : pi.entities()) {
             stringSet.add(d.getTitle());
         }
-        ArrayList<String> deckNames = new ArrayList<>(stringSet);
-        return deckNames;
+        return new ArrayList<>(stringSet);
+    }
+
+    public Deck getDeck(String title) {
+        PrimaryIndex<String, Deck> pi = DeckStore.getDeckAccessorPrimaryIndex();
+        return pi.get(title);
     }
 
 }

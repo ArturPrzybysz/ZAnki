@@ -4,12 +4,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MainStage extends Stage {
-    private final static double HEIGHT = 550, WIDTH = 670;
+    private final static double HEIGHT = 650, WIDTH = 650;
     private Scene learnScene, createScene;
 
     public MainStage() {
-        learnScene = MainStageScenes.setLearnScene(WIDTH, HEIGHT, this);
-        createScene = MainStageScenes.setBeginCreationScene(WIDTH, HEIGHT, this);
+        MainStageScenes m = new MainStageScenes();
+        learnScene = m.setLearnScene(WIDTH, HEIGHT, this);
+        createScene = m.setBeginCreationScene(WIDTH, HEIGHT, this);
 
         setLearningScene();
     }
