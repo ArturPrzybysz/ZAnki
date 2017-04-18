@@ -101,7 +101,7 @@ public class CreationScene extends Scene {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Informacja");
                 alert.setHeaderText(null);
-                alert.setContentText("Uzupełnij wszystkie dane.");
+                alert.setContentText("Uzupełnij wszystkie informacje.");
 
                 alert.showAndWait();
             }
@@ -120,7 +120,7 @@ public class CreationScene extends Scene {
     }
 
     private boolean empty(TextField tfTitle, TextField tfAuthor, TextField tfDate) {
-        if (tfTitle.getText() == "" && tfAuthor.getText() == "" && tfDate.getText() == "") {
+        if (tfTitle.getText().equals("") || tfAuthor.getText().equals("") || tfDate.getText().equals("") || !pictureAdded) {
             return true;
         } else return false;
     }
