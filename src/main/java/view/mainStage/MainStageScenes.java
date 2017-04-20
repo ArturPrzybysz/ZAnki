@@ -10,10 +10,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import view.createDeck.CreationScene;
-import view.displayDeck.LearningStage;
-import view.displayDeck.TestStage;
+import view.displayDecks.LearningStage;
+import view.displayDecks.TestStage;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class MainStageScenes {
@@ -123,22 +124,27 @@ public class MainStageScenes {
                 title = comboBox.getSelectionModel().getSelectedItem().toString();
             }
 
-            ObservableList<Fiszka> SelectedItemsOfTable = table.getSelectionModel().getSelectedItems();
-            if (SelectedItemsOfTable.size() == 0) {
+            ObservableList<Fiszka> itemsSelectedFromTable = table.getSelectionModel().getSelectedItems();
+            if (itemsSelectedFromTable.size() == 0) {
                 return;
             }
 
-            Stage stageLearn = new LearningStage(SelectedItemsOfTable, title, WIDTH, HEIGHT);
+            Stage stageLearn = new LearningStage(itemsSelectedFromTable, title, WIDTH, HEIGHT);
             stageLearn.show();
         });
 
         Button buttonStartTest = new Button("Rozpocznij test");
         buttonStartTest.setPrefWidth(550);
         buttonStartTest.setOnAction(event -> {
-            String title = comboBox.getSelectionModel().getSelectedItem().toString();
-            ObservableList<Fiszka> deck = FXCollections.observableArrayList(manager.getDeck(title).getFiszkas());
-            Stage test = new TestStage(deck, title, WIDTH, HEIGHT);
-            test.show();
+            if (Objects.nonNull(comboBox.getSelectionModel().getSelectedItem())) {
+                String title = comboBox.getSelectionModel().getSelectedItem().toString();
+                ObservableList<Fiszka> deck = FXCollections.observableArrayList(manager.getDeck(title).getFiszkas());
+                ObservableList<Fiszka> selectedFromDeck = table.getSelectionModel().getSelectedItems();
+                if(selectedFromDeck.size()!=0){
+                Stage test = new TestStage(deck, selectedFromDeck, title, WIDTH, HEIGHT);
+                test.show();}
+            }
+
         });
 
         gp.add(setButtonLearn(WIDTH, parentStage), 0, 0);

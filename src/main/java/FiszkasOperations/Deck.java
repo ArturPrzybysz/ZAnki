@@ -20,7 +20,6 @@ public class Deck {
 
     private String serializedFiszkas;
 
-    //private ArrayList<Fiszka> fiszkas;
     public Deck(String title, List<Fiszka> fiszkas) {
         this.title = title;
         ObjectMapper mapper = new ObjectMapper();
@@ -30,9 +29,7 @@ public class Deck {
         } catch (Exception e) {
             System.out.println("Error during serialization of fiszkas List: " + fiszkas);
         }
-
     }
-
     Deck() {
     }
 

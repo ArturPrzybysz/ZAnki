@@ -1,4 +1,4 @@
-package view.displayDeck;
+package view.displayDecks;
 
 import FiszkasOperations.Fiszka;
 import FiszkasOperations.Manager;
@@ -14,29 +14,39 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TestStage extends Stage {
     private String title;
     private ObservableList<Fiszka> fiszkas;
+
     private Scene sceneQuestion;
     private GridPane gpQuestion = new GridPane();
     private ImageView view = new ImageView();
     private TextField tfTitle;
     private TextField tfAuthor;
     private TextField tfDate;
+
     private int iterator = 0;
     private boolean[] availableFiszkas;
     private int answered = 0;
 
-    public TestStage(ObservableList list, String title, double WIDTH, double HEIGHT) {
-        title = title;
+    public TestStage(ObservableList<Fiszka> list, ObservableList<Fiszka> selectedFromList, String title, double WIDTH, double HEIGHT) {
         setWidth(WIDTH);
         setHeight(HEIGHT);
         gpQuestion.setPadding(new Insets(10.0D, 50.0D, 20.0D, 50.0D));
         gpQuestion.setAlignment(Pos.CENTER);
         sceneQuestion = new Scene(gpQuestion);
+
         fiszkas = list;
         availableFiszkas = new boolean[fiszkas.size()];
+
+        for (int i = 0; i < fiszkas.size(); i++) {
+            availableFiszkas[i] = false;
+        }
+
+        prepareFiszkas(selectedFromList);
+
         setTitle(title);
         updateQuestionScene();
         setScene(sceneQuestion);
@@ -60,11 +70,14 @@ public class TestStage extends Stage {
         tfAuthor.setAlignment(Pos.CENTER);
         tfTitle.setAlignment(Pos.CENTER);
         tfDate.setAlignment(Pos.CENTER);
+
         Button btShowAnswer = new Button("Sprawdź");
         btShowAnswer.setPrefSize(350.0D, 25.0D);
         btShowAnswer.setOnAction(event -> {
             setScene(setAnswerScene(tfTitle.getText(), tfAuthor.getText(), tfDate.getText()));
         });
+
+
         gpQuestion.add(view, 0, 0, 2, 1);
         gpQuestion.add(new Separator(), 0, 1, 3, 1);
         gpQuestion.add(tfTitle, 0, 2, 2, 1);
@@ -84,6 +97,10 @@ public class TestStage extends Stage {
         boolean titleResult = answerEvaluation(title, (fiszkas.get(iterator % fiszkas.size())).getTitle());
         boolean authorResult = answerEvaluation(author, (fiszkas.get(iterator % fiszkas.size())).getAuthor());
         boolean dateResult = answerEvaluation(date, (fiszkas.get(iterator % fiszkas.size())).getDate());
+
+        if (titleResult && authorResult && dateResult) {
+            availableFiszkas[iterator % fiszkas.size()] = false;
+        }
 
         gpResult.add(view, 0, 0, 2, 1);
         gpResult.add(new Separator(), 0, 1, 2, 1);
@@ -113,11 +130,11 @@ public class TestStage extends Stage {
 
         gpResult.add(setDifficultyButton, 1, 6);
         gpResult.add(lbTitle, 1, 2);
-        gpResult.add(new Label(((Fiszka) fiszkas.get(iterator % fiszkas.size())).getTitle()), 2, 2);
+        gpResult.add(new Label((fiszkas.get(iterator % fiszkas.size())).getTitle()), 2, 2);
         gpResult.add(lbAuthor, 1, 3);
-        gpResult.add(new Label(((Fiszka) fiszkas.get(iterator % fiszkas.size())).getAuthor()), 2, 3);
+        gpResult.add(new Label((fiszkas.get(iterator % fiszkas.size())).getAuthor()), 2, 3);
         gpResult.add(lbDate, 1, 4);
-        gpResult.add(new Label(((Fiszka) fiszkas.get(iterator % fiszkas.size())).getDate()), 2, 4);
+        gpResult.add(new Label((fiszkas.get(iterator % fiszkas.size())).getDate()), 2, 4);
         gpResult.add(nextPage, 1, 5);
         return scene;
     }
@@ -142,6 +159,21 @@ public class TestStage extends Stage {
         }
     }
 
+    private void prepareFiszkas(ObservableList<Fiszka> givenFiszkas) {
+        Fiszka g;
+        for (Fiszka f : givenFiszkas) {
+            for (int i = 0; i < fiszkas.size(); i++) {
+                if (!availableFiszkas[i]) {
+                    g = fiszkas.get(i);
+                    if (Objects.equals(f.getTitle(), g.getTitle())) {
+                        availableFiszkas[i] = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     private void updateDB() {
         Manager.addToStore(title, new ArrayList(fiszkas));
     }
@@ -163,8 +195,9 @@ public class TestStage extends Stage {
 
     private int newIteratorValue() {
         do {
-            iterator += 5;
-        } while (availableFiszkas[iterator % fiszkas.size()]);
+            iterator++;
+            System.out.println(iterator);
+        } while (!availableFiszkas[iterator % fiszkas.size()]);
 
         return iterator;
     }

@@ -8,6 +8,7 @@ public class MainStage extends Stage {
     private Scene learnScene, createScene;
 
     public MainStage() {
+        setTitle("ZuzAnki");
         MainStageScenes m = new MainStageScenes();
         learnScene = m.setLearnScene(WIDTH, HEIGHT, this);
         createScene = m.setBeginCreationScene(WIDTH, HEIGHT, this);
@@ -16,7 +17,8 @@ public class MainStage extends Stage {
     }
 
     public void setLearningScene() {
-        setScene(learnScene);
+        MainStageScenes scenes = new MainStageScenes();
+        setScene(scenes.setLearnScene(WIDTH,HEIGHT,this));
     }
 
     public void setCreateScene() {

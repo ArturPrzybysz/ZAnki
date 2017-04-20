@@ -108,6 +108,8 @@ public class CreationScene extends Scene {
                 if (!titleRepeats(tfTitle.getText())) {
                     fiszkas.add(new Fiszka(tfTitle.getText(), tfAuthor.getText(), tfDate.getText(), imageContainer));
                     Manager.addToStore(title, fiszkas);
+
+                    stage.setCreateScene();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Informacja");
@@ -140,6 +142,10 @@ public class CreationScene extends Scene {
 
     private boolean titleRepeats(String newTitle) {
         return fiszkas.stream().anyMatch(fiszka -> Objects.equals(fiszka.getTitle(), newTitle));
+    }
+
+    public void reloadScenes(){
+
     }
 
     private boolean empty(TextField tfTitle, TextField tfAuthor, TextField tfDate) {
