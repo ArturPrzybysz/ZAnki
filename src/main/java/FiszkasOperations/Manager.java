@@ -2,18 +2,21 @@ package FiszkasOperations;
 
 import com.sleepycat.persist.PrimaryIndex;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class Manager {
-
-    public static void addToStore(String title, List<Fiszka> fiszkaArrayList) {
+    public static void addToStore(String title, ArrayList<Fiszka> fiszkaArrayList) {
+        DeckStore.init(new File(FileAddress.getDBAdress()));
         PrimaryIndex<String, Deck> pi = DeckStore.getDeckAccessorPrimaryIndex();
         Deck deck = new Deck(title, fiszkaArrayList);
         pi.putNoReturn(deck);
+        DeckStore.close();
     }
+
 
     public static List<String> getAllDecksNames() {
         PrimaryIndex<String, Deck> pi = DeckStore.getDeckAccessorPrimaryIndex();
@@ -31,5 +34,4 @@ public class Manager {
         PrimaryIndex<String, Deck> pi = DeckStore.getDeckAccessorPrimaryIndex();
         return pi.get(title);
     }
-
 }

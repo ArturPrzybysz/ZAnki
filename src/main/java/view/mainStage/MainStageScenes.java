@@ -81,6 +81,7 @@ public class MainStageScenes {
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+
         TableColumn titleColumn = new TableColumn("Tytuł");
         TableColumn authorColumn = new TableColumn("Autor");
         TableColumn dateColumn = new TableColumn("Data");

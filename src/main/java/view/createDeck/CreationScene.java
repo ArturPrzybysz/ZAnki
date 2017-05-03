@@ -107,7 +107,7 @@ public class CreationScene extends Scene {
             if (!empty(tfTitle, tfAuthor, tfDate)) {
                 if (!titleRepeats(tfTitle.getText())) {
                     fiszkas.add(new Fiszka(tfTitle.getText(), tfAuthor.getText(), tfDate.getText(), imageContainer));
-                    Manager.addToStore(title, fiszkas);
+                    Manager.addToStore(title, (ArrayList<Fiszka>) fiszkas);
 
                     stage.setCreateScene();
                 } else {

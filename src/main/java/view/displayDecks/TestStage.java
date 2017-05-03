@@ -47,6 +47,7 @@ public class TestStage extends Stage {
 
         prepareFiszkas(selectedFromList);
 
+        this.title = title;
         setTitle(title);
         updateQuestionScene();
         setScene(sceneQuestion);
@@ -74,9 +75,9 @@ public class TestStage extends Stage {
         Button btShowAnswer = new Button("Sprawdź");
         btShowAnswer.setPrefSize(350.0D, 25.0D);
         btShowAnswer.setOnAction(event -> {
+
             setScene(setAnswerScene(tfTitle.getText(), tfAuthor.getText(), tfDate.getText()));
         });
-
 
         gpQuestion.add(view, 0, 0, 2, 1);
         gpQuestion.add(new Separator(), 0, 1, 3, 1);
@@ -97,10 +98,6 @@ public class TestStage extends Stage {
         boolean titleResult = answerEvaluation(title, (fiszkas.get(iterator % fiszkas.size())).getTitle());
         boolean authorResult = answerEvaluation(author, (fiszkas.get(iterator % fiszkas.size())).getAuthor());
         boolean dateResult = answerEvaluation(date, (fiszkas.get(iterator % fiszkas.size())).getDate());
-
-        if (titleResult && authorResult && dateResult) {
-            availableFiszkas[iterator % fiszkas.size()] = false;
-        }
 
         gpResult.add(view, 0, 0, 2, 1);
         gpResult.add(new Separator(), 0, 1, 2, 1);
@@ -165,9 +162,14 @@ public class TestStage extends Stage {
             for (int i = 0; i < fiszkas.size(); i++) {
                 if (!availableFiszkas[i]) {
                     g = fiszkas.get(i);
-                    if (Objects.equals(f.getTitle(), g.getTitle())) {
-                        availableFiszkas[i] = true;
-                        break;
+                    try {
+                        if (Objects.equals(f.getTitle(),
+                                g.getTitle())) {
+                            availableFiszkas[i] = true;
+                            break;
+                        }
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -194,9 +196,14 @@ public class TestStage extends Stage {
     }
 
     private int newIteratorValue() {
+        int count = 0;
         do {
             iterator++;
-            System.out.println(iterator);
+            count++;
+            if (count > fiszkas.size()) {
+                close();
+                break;
+            }
         } while (!availableFiszkas[iterator % fiszkas.size()]);
 
         return iterator;
@@ -225,7 +232,7 @@ public class TestStage extends Stage {
 
     private void nextPageAction(boolean titleResult, boolean authorResult, boolean dateResult) {
         if (titleResult && authorResult && dateResult) {
-            availableFiszkas[iterator % fiszkas.size()] = true;
+            availableFiszkas[iterator % fiszkas.size()] = false;
             answered++;
             if (answered == fiszkas.size()) {
                 close();
@@ -245,7 +252,6 @@ public class TestStage extends Stage {
         } else {
             setDifficultyButton.setText("Nieoznaczony");
         }
-
         updateDB();
     }
 }
